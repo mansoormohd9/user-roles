@@ -1,0 +1,48 @@
+<p>Manage Users</p>
+<div id='grid-container'></div>
+<script>
+
+webix.i18n.parseFormat = "%c";
+webix.i18n.setLocale();
+
+var toolbar = {
+	view:"toolbar",
+	cols:[
+		{ view:"button", value:"Add Row", width:120, click:function(){
+			$$("user").add({})
+		}},
+		{ view:"button", value:"Delete Row", width:120, click:function(){
+			var row = $$("user").getSelectedItem();
+			if (row)
+				$$("user").remove(row.id);
+		}},
+	]
+};
+
+var user = {
+	view:"datatable", id:"user", select:true,
+	autoheight:true, scroll:false,
+	editable:true,
+	columns:[
+		{ id:"userId", header:"User Id", editor:"text", hidden: true},
+		{ id:"name", header:"Name", editor:"text"},
+		{ id:"email", header:"Email", width: 150, editor:"text"},
+		{ id:"roleName", header:"Role", options:'/user/roles', width:80, editor:"richselect"}
+	],
+	url:"/user/data",
+	save: {
+		url: "rest->/user/data",
+		on:{
+       onAfterInsert:function(state, id, data){  webix.message(state.newid); }
+    }
+	}
+};
+
+webix.ui({
+	width:640, type:"space",
+	container:"grid-container",
+	rows:[
+		toolbar, user
+	]
+});
+</script>

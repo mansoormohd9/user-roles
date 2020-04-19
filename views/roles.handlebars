@@ -1,0 +1,59 @@
+<p>Manage Users</p>
+<div id='grid-container'></div>
+<script>
+
+webix.i18n.parseFormat = "%c";
+webix.i18n.setLocale();
+
+var toolbar = {
+	view:"toolbar",
+	cols:[
+		{ view:"button", value:"Add Row", width:120, click:function(){
+			$$("role").add({});
+		}},
+		{ view:"button", value:"Delete Row", width:120, click:function(){
+			var row = $$("role").getSelectedId();
+			if (row)
+				$$("role").remove(row.id);
+		}},
+	]
+};
+
+var role = {
+	view:"datatable",
+	id:"role",
+	select:true,
+	autoheight:true,
+	scroll:false,
+	editable:true,
+	columns:[
+		{ id:"roleId", header:"Role Id", editor:"text", hidden: true},
+		{ id:"roleName", header:"Role Name", editor:"text"}
+	],
+	url:"/role/data",
+	save: {
+		url: "rest->/role/data",
+		on:{
+       onAfterInsert:function(state, id, data){  webix.message(state.newid); }
+    }
+	},
+	rules: {
+		roleName: function(value) {
+			return $$("role").find(x => x.roleName==value).length == 1;
+		}
+	},
+	on:{
+		onValidationError:function(id, obj, details){
+				webix.message({ type:"error", text:"Duplicate Role Name are Not Allowed" });
+		},
+	}
+};
+
+webix.ui({
+	width:640, type:"space",
+	container:"grid-container",
+	rows:[
+		toolbar, role
+	]
+});
+</script>
