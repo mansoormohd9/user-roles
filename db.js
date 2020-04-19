@@ -1,12 +1,12 @@
-var User = function(userId, name, email, roleId) {
-  this.userId = userId;
+var User = function(id, name, email, roleId) {
+  this.id = id;
   this.name = name;
   this.email = email;
   this.roleId = roleId;
 }
 
-var Role = function(roleId, roleName) {
-  this.roleId = roleId;
+var Role = function(id, roleName) {
+  this.id = id;
   this.roleName = roleName;
 }
 

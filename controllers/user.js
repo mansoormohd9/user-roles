@@ -3,7 +3,10 @@ var db = require("../db");
 module.exports = {
 	getData : function(req, res){
     return res.json(db.users.map(x => {
-			x.roleName = db.roles.find(y => y.roleId == x.roleId).roleName;
+			const role = db.roles.find(y => y.id == x.roleId);
+			if(role) {
+				x.roleName = role.roleName;
+			}
 			return x;
 		}));
 	},
@@ -13,27 +16,30 @@ module.exports = {
 	},
 
 	removeData: function(req, res){
-    db.users = db.users.filter(x => x.userId !== req.params.userId);
+    db.users = db.users.filter(x => x.id !== req.params.id);
     
     return res.json({});
 	},
 
 	addData: function(req, res){
-    var nextId = db.users[db.users.length-1].userId + 1;
+    var nextId = db.users[db.users.length-1].id + 1;
 		const data = req.body;
       
-    db.users.push({userId: nextId, name: data.name, email: data.email, roleId: data.roleId});
+    db.users.push({id: nextId, name: data.name, email: data.email, id: data.id});
 
 		return res.json({ id: nextId });
 	},
 	updateData: function(req, res){
 		const data = req.body;
     
-		var user = db.users.find(x => x.userId == data.userId);
+		var user = db.users.find(x => x.id == data.id);
 		if(user) {
 			user.name = data.name;
 			user.email = data.email;
-			user.roleId = db.roles.find(y => y.roleName == data.roleName).roleId;
+			const role = db.roles.find(y => y.roleName == data.roleName);
+			if(role) {
+				user.roleId = role.id;
+			}
 		}
 
 		return res.json({});
