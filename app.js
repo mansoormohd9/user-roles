@@ -32,4 +32,5 @@ app.post('/role/data', role.addData);
 app.put('/role/data/:id', role.updateData);
 app.delete('/role/data/:id', role.removeData);
 
-app.listen(3000);
+const port = process.env.PORT || 3000;
+app.listen(port);
