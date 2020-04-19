@@ -25,7 +25,7 @@ module.exports = {
     var nextId = db.users[db.users.length-1].id + 1;
 		const data = req.body;
       
-    db.users.push({id: nextId, name: data.name, email: data.email, id: data.id});
+    db.users.push({id: nextId, name: data.name, email: data.email, roleId: data.roleId});
 
 		return res.json({ id: nextId });
 	},

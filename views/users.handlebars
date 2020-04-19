@@ -30,12 +30,7 @@ var user = {
 		{ id:"roleName", header:"Role", options:'/user/roles', width:80, editor:"richselect"}
 	],
 	url:"/user/data",
-	save: {
-		url: "rest->/user/data",
-		on:{
-       onAfterInsert:function(state, id, data){  webix.message(state.newid); }
-    }
-	}
+	save: "rest->/user/data"
 };
 
 webix.ui({

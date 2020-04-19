@@ -31,12 +31,7 @@ var role = {
 		{ id:"roleName", header:"Role Name", editor:"text"}
 	],
 	url:"/role/data",
-	save: {
-		url: "rest->/role/data",
-		on:{
-       onAfterInsert:function(state, id, data){  webix.message(state.newid); }
-    }
-	},
+	save: "rest->/role/data",
 	rules: {
 		roleName: function(value) {
 			return $$("role").find(x => x.roleName==value).length == 1;
